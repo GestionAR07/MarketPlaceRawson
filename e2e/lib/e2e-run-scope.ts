@@ -22,9 +22,14 @@ export function e2eRunMarker(runId: string): string {
 }
 
 /**
- * In-memory registry for future write-capable fixtures.
+ * In-memory registry for write-capable fixtures.
  * Cleanup adapters must receive exact IDs from this registry; broad deletes,
- * TRUNCATE, or cleanup by unscoped text search are intentionally unsupported.
+ * TRUNCATE, or cleanup by unscoped text search are intentionally unsupported
+ * inside a live test run.
+ *
+ * Interrupted runs may leave `[E2E:…]` residues — use the guarded DEV orphan
+ * sweeper (`e2e/lib/e2e-orphan-cleanup*.ts`, `npm run e2e:orphan-cleanup`)
+ * which only matches marker-prefixed names and `e2e-*@example.invalid` emails.
  */
 export class E2eCreatedResourceRegistry {
   readonly runId: string;
