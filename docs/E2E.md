@@ -141,4 +141,4 @@ La base E2E crítica de comprador/comercio y multitenancy está validada. La rec
 
 READ_ONLY sigue siendo el único modo apto para CI: `npm run e2e` ignora `*.write.spec.ts` y no usa `SUPABASE_SECRET_KEY`. WRITE_DEV permanece explícito (`npm run e2e:dev` + `E2E_ALLOW_WRITES`) y no debe entrar a CI automático.
 
-El trabajo pre-piloto restante es observabilidad, entorno PROD, backup/restore y QA en dispositivos reales. Ver [`OPERATIONS.md`](./OPERATIONS.md).
+La baseline de logging operativo seguro ya está implementada. Lo que sigue pendiente en observabilidad es la agregación/retención central de logs y la captura remota de errores de render, además del entorno PROD, backup/restore y QA en dispositivos reales. Ver [`OPERATIONS.md`](./OPERATIONS.md).
