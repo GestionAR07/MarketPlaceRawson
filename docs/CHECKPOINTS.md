@@ -136,6 +136,10 @@ Logger central `src/lib/operational-log.ts` con allowlist. Eventos P0 de place, 
 
 `GET /api/health` responde `{"status":"ok"}` si el proceso web está vivo. No consulta PostgreSQL, Auth ni Storage. Readiness queda fuera de este endpoint.
 
+### `PRE_PILOT_ENVIRONMENT_GUARD_IMPLEMENTED`
+
+`src/config/runtime-environment.ts` rechaza mezclas claras de DEV y PROD. Solo `MARKETPLACE_ENV` selecciona el entorno. Un proceso que ya sirve con `NODE_ENV=production` no puede arrancar si esa variable falta; `next build` queda exceptuado. No prueba que las keys y `DATABASE_URL` sean del mismo proyecto. Crear el proyecto Supabase PROD y cargar su ref sigue pendiente.
+
 ### `PRE_PILOT_OPERATIONS_BASELINE_IN_PROGRESS`
 
 Runbook en [`OPERATIONS.md`](./OPERATIONS.md). No marca como hecho lo que la app todavía no tiene.

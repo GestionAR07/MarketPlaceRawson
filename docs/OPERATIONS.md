@@ -45,6 +45,8 @@ Nunca copiar secretos al repo. `.env.local` es solo la máquina de quien desarro
 
 `MARKETPLACE_DEV_PROJECT_REF` identifica el proyecto DEV autorizado para harnesses de escritura. No es la identidad de PROD y no debe apuntar al proyecto de producción.
 
+`MARKETPLACE_PROD_PROJECT_REF` es el ref esperado cuando `MARKETPLACE_ENV=production`. No es un secreto. DEV y PROD deben ser refs distintos.
+
 ## 3. Variables críticas
 
 Nombres reales usados por este repo. En el dashboard de Supabase la publishable key a veces se llama “anon”; la secret key, “service_role”. El código no lee `NEXT_PUBLIC_SUPABASE_ANON_KEY` ni `SUPABASE_SERVICE_ROLE_KEY`.
@@ -57,14 +59,21 @@ Nombres reales usados por este repo. En el dashboard de Supabase la publishable 
 | `SUPABASE_SECRET_KEY`                  | SERVER ONLY | Auth Admin (invites, lookup). Prohibido `NEXT_PUBLIC_SUPABASE_SECRET_KEY`.                                                       |
 | `APP_BASE_URL`                         | SERVER ONLY | Origen público de Next. Invites, recovery y OAuth. Ejemplo local `http://localhost:3001`. Producción `https://<dominio-pedilo>`. |
 | `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED`      | CLIENT SAFE | `true` solo después de configurar Google en ese proyecto.                                                                        |
-| `MARKETPLACE_ENV`                      | SERVER ONLY | Si vale `production`, los harnesses WRITE_DEV y lifecycle abortan. No sustituye un proyecto separado.                            |
-| `MARKETPLACE_DEV_PROJECT_REF`          | SERVER ONLY | Ref exacto del proyecto DEV. Solo harnesses. Nunca el ref de PROD. Nunca en Git.                                                 |
+| `MARKETPLACE_ENV`                      | SERVER ONLY | Selecciona DEV/test/PROD. Obligatoria en un runtime que ya sirve con `NODE_ENV=production`. No la infiere `NODE_ENV`.            |
+| `MARKETPLACE_DEV_PROJECT_REF`          | SERVER ONLY | Ref exacto del proyecto DEV. Harnesses y guard. Nunca el ref de PROD. Nunca en Git.                                              |
+| `MARKETPLACE_PROD_PROJECT_REF`         | SERVER ONLY | Ref esperado de PROD. No es secreto. Obligatorio solo si `MARKETPLACE_ENV=production`.                                           |
 | `E2E_ALLOW_WRITES`                     | LOCAL ONLY  | Debe ser `I_ACCEPT_E2E_DEV_WRITES` y solo en la shell del operador. No en CI ni en hosting PROD.                                 |
 | `E2E_MODE`                             | LOCAL ONLY  | `WRITE_DEV` lo setea `npm run e2e:dev`. CI usa READ_ONLY.                                                                        |
 
-`NODE_ENV` y `VERCEL_ENV` los setea el runtime/host. Si alguno es `production`, los scripts de escritura contra DEV abortan. No los uses para “marcar” un `.env.local` de desarrollo.
+`NODE_ENV` y `VERCEL_ENV` los setea el runtime/host. Si alguno es `production`, los scripts de escritura contra DEV abortan. No los uses para “marcar” un `.env.local` de desarrollo, ni para elegir el proyecto Supabase. `next build` y CI usan `NODE_ENV=production` y no por eso aplican las reglas PROD.
 
-No hay guard de runtime que impida a la app de producción conectarse a DEV. La separación la garantiza el operador al cargar variables distintas.
+`MARKETPLACE_ENV` es la única selección de entorno. En un proceso que ya está sirviendo (`NODE_ENV=production` y `NEXT_PHASE` distinto de `phase-production-build`) tiene que estar puesta; si falta, el proceso se niega a abrir DB o Auth. El valor de producción es `production`. `next build` es la excepción: durante esa fase Next setea `NEXT_PHASE=phase-production-build` y un `MARKETPLACE_ENV` vacío sigue permitido. `NEXT_PHASE` no elige DEV, PROD ni el proyecto.
+
+El guard corre al abrir `getDb()`, al crear clientes Supabase de servidor (sesión, admin, proxy y `/auth/confirm`) y al cargar `drizzle.config.ts` vía `getDatabaseConfig`. `assertSafeRuntimeEnvironment` exige primero esa presencia; después `validateRuntimeEnvironment` aplica las reglas. Solo `MARKETPLACE_ENV=production` exige ref PROD, URL de ese proyecto y `APP_BASE_URL` en `https:`. En `development`, si el ref DEV está configurado, la URL pública debe coincidir y no puede ser el ref PROD conocido. `test` y un `next dev` local sin `MARKETPLACE_ENV` no activan esas reglas.
+
+Detecta: PROD apuntando a DEV, DEV apuntando a un PROD conocido, refs iguales, URL de API inválida, `APP_BASE_URL` sin HTTPS en producción, y `DATABASE_URL` que contiene literalmente el ref DEV.
+
+No detecta: que la publishable key, la secret key y `DATABASE_URL` pertenezcan al mismo proyecto; hosts pooler u otras formas de Postgres que no incluyen el ref; un PROD real todavía no creado. No imprime `DATABASE_URL` ni secretos.
 
 ## 4. Preflight antes de iniciar producción
 

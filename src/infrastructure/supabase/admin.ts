@@ -1,6 +1,7 @@
 import "server-only";
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { assertSafeRuntimeEnvironment } from "@/config/runtime-environment";
 import {
   getSupabasePublicConfig,
   getSupabaseSecretKey,
@@ -34,6 +35,7 @@ export function createSupabaseAdminClient(): SupabaseClient {
     return cached;
   }
 
+  assertSafeRuntimeEnvironment();
   const { url } = getSupabasePublicConfig();
   const secretKey = getSupabaseSecretKey();
 

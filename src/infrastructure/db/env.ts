@@ -1,3 +1,5 @@
+import { assertSafeRuntimeEnvironment } from "../../config/runtime-environment";
+
 /**
  * Server-only database configuration.
  * Domain modules must NEVER import this file.
@@ -28,6 +30,7 @@ export function getDatabaseConfig(env: EnvLike = process.env): DatabaseConfig {
     throw new Error("DATABASE_URL must not be a NEXT_PUBLIC_ variable");
   }
 
+  assertSafeRuntimeEnvironment(env);
   return { databaseUrl };
 }
 

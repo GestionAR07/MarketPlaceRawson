@@ -63,6 +63,7 @@ Pedilo ya superó la etapa de MVP técnico y se encuentra en **pre-piloto**. Los
    - auditoría de dependencias registrada (`docs/DEPENDENCY_SECURITY.md`); residual solo en tooling de desarrollo.
    - recuperación de contraseña pública validada end-to-end en DEV (email, callback, `/set-password`, login).
    - liveness `GET /api/health` (proceso vivo; no es readiness de Postgres/Auth/Storage).
+   - guard de entorno (`MARKETPLACE_ENV=production`; no usa `NODE_ENV` como señal).
 
    Pendiente real antes del piloto:
    - observabilidad mínima (logger y fallos de pedido; sin proveedor externo todavía).
@@ -110,7 +111,7 @@ No se requiere “cero bugs” para comenzar un piloto controlado, pero sí:
 - experiencia móvil suficientemente estable;
 - entorno productivo separado de DEV;
 - backup inicial, procedimiento de restore y cutover documentados en [`OPERATIONS.md`](./OPERATIONS.md);
-- logs mínimos, error boundaries y liveness health ya implementados; readiness de base sigue fuera de alcance;
+- logs mínimos, error boundaries, liveness health y guard DEV/PROD ya implementados; readiness de base y el proyecto Supabase PROD siguen fuera de alcance;
 - canal operativo para resolver incidentes del comercio piloto.
 
 Las funcionalidades posteriores no deben bloquear el piloto si no comprometen seguridad, dinero, pedidos, stock o capacidad de recuperación.

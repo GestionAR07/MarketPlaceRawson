@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import { assertSafeRuntimeEnvironment } from "@/config/runtime-environment";
 import { getSupabasePublicConfig } from "./env";
 
 /**
@@ -14,6 +15,8 @@ export async function updateSession(
       headers: request.headers,
     },
   });
+
+  assertSafeRuntimeEnvironment();
 
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
