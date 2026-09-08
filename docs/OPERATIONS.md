@@ -250,7 +250,24 @@ Puede esperar a una corrección normal si no afecta dinero, stock ni acceso.
 
 Canal humano: una persona de guardia con acceso al hosting y al dashboard de **PROD**, distinta de quien solo tiene DEV.
 
-## 11. Credenciales
+## 11. Logs operativos
+
+Baseline mínima en `src/lib/operational-log.ts`. Escribe JSON a la salida estándar del servidor. No hay archivo de log, tabla ni proveedor externo (no Sentry).
+
+Eventos conectados:
+
+- `order.place_ok` / `order.place_failed`
+- `order.cancel_ok` / `order.cancel_failed`
+- `merchant.transition_ok` / `merchant.transition_failed`
+- `oauth.continue_failed` (solo `stage`)
+
+Campos permitidos: `stage`, `error_code`, `operation`, `status_from`, `status_to`, `actor_type`, `delivery_type`, `storage_bucket`, `provider`, `reason_code`.
+
+Prohibido en logs: passwords, tokens, cookies, Authorization, service role, keys, emails, teléfonos, direcciones, nombres, bodies, objetos Supabase, `Error.message` crudo, IDs/UUIDs.
+
+Si el logger falla al serializar, no debe romper el pedido. Storage upload e Auth invite todavía no emiten eventos.
+
+## 12. Credenciales
 
 - Los secrets no van a Git, capturas, chats ni issues.
 - `SUPABASE_SECRET_KEY` solo en servidor. La publishable key sí puede ir al browser.
@@ -258,7 +275,7 @@ Canal humano: una persona de guardia con acceso al hosting y al dashboard de **P
 - Si una credencial se filtra: rotarla en Supabase, actualizar el hosting, invalidar sesiones si aplica, y no reutilizar la clave vieja en `.env.local`.
 - Después de rotar, la app debe reiniciarse con la variable nueva. Un proceso viejo sigue usando la anterior.
 
-## 12. Checklist GO / NO-GO del piloto
+## 13. Checklist GO / NO-GO del piloto
 
 No iniciar con comercios reales si falta un ítem de INFRA o AUTH. OPERATIONS marcado pendiente no bloquea un ensayo interno, sí el corte a usuarios reales.
 
@@ -298,7 +315,7 @@ No iniciar con comercios reales si falta un ítem de INFRA o AUTH. OPERATIONS ma
 
 ### OPERATIONS
 
-- [ ] logs mínimos de fallos de pedido (aún no implementados en app)
+- [x] logs mínimos de fallos de pedido (baseline; sin proveedor externo)
 - [ ] error boundaries (aún no implementados)
 - [ ] backup
 - [ ] restore ensayado en proyecto descartable

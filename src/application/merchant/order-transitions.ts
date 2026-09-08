@@ -1,4 +1,5 @@
 import { ORDER_STATUSES, type OrderStatus } from "@/domain/order/enums";
+import { operationalLog } from "@/lib/operational-log";
 import { transitionOrderStatus } from "@/domain/order/transitions";
 import { err, ok, type Result } from "@/domain/shared/result";
 import { isValidUuid } from "@/lib/uuid";
@@ -149,9 +150,18 @@ export async function transitionMerchantOperationalOrder(
   Result<MerchantOrderTransitionResult, MerchantOrderTransitionError>
 > {
   if (!isValidUuid(input.merchantId) || !isValidUuid(input.orderId)) {
+    operationalLog.error("merchant.transition_failed", {
+      stage: "validate",
+      error_code: MERCHANT_ORDER_TRANSITION_ERROR_CODES.ORDER_NOT_FOUND,
+    });
     return err(notFound());
   }
   if (!isValidUuid(input.actorUserId)) {
+    operationalLog.error("merchant.transition_failed", {
+      stage: "validate",
+      error_code:
+        MERCHANT_ORDER_TRANSITION_ERROR_CODES.ORDER_TRANSITION_INVALID,
+    });
     return err({
       code: MERCHANT_ORDER_TRANSITION_ERROR_CODES.ORDER_TRANSITION_INVALID,
       message: "No se puede actualizar el pedido.",
@@ -160,6 +170,10 @@ export async function transitionMerchantOperationalOrder(
 
   const target = assertMerchantOperationalTarget(input.targetStatus);
   if (!target.ok) {
+    operationalLog.error("merchant.transition_failed", {
+      stage: "validate",
+      error_code: target.error.code,
+    });
     return err(target.error);
   }
 
@@ -172,7 +186,17 @@ export async function transitionMerchantOperationalOrder(
   });
 
   if (persisted.status === "transitioned") {
+    operationalLog.info("merchant.transition_ok", {
+      stage: "persist",
+      status_from: persisted.result.previousStatus,
+      status_to: persisted.result.status,
+    });
     return ok(persisted.result);
   }
+  operationalLog.error("merchant.transition_failed", {
+    stage: "persist",
+    error_code: persisted.error.code,
+    status_to: target.value,
+  });
   return err(persisted.error);
 }

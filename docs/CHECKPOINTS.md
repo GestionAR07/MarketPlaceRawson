@@ -124,6 +124,10 @@ Merge de referencia: PR #17, `92878e3` en `main`.
 
 ## Estado actual
 
+### `PRE_PILOT_SAFE_OPERATIONAL_LOGGING_IMPLEMENTED`
+
+Logger central `src/lib/operational-log.ts` con allowlist. Eventos P0 de place, cancel, transición merchant y fallo OAuth. No registra PII, tokens ni `Error.message`. No es observabilidad completa: no hay health, error boundaries ni sink externo.
+
 ### `PRE_PILOT_OPERATIONS_BASELINE_IN_PROGRESS`
 
 Runbook en [`OPERATIONS.md`](./OPERATIONS.md). No marca como hecho lo que la app todavía no tiene.
@@ -136,7 +140,6 @@ Hecho en esta baseline documental:
 
 Sigue pendiente de implementación o de operación externa:
 
-- logger mínimo y eventos de fallo de pedido;
 - `error.tsx` / `global-error.tsx` / health;
 - proyecto Supabase PROD, dominio, HTTPS y secrets de hosting;
 - backup inicial y ensayo de restore en proyecto descartable;

@@ -1,4 +1,5 @@
 import { moneyCents } from "@/domain/money/money-cents";
+import { operationalLog } from "@/lib/operational-log";
 import { parseIdempotencyKey } from "@/domain/order/idempotency";
 import type { FulfillmentMethod } from "@/domain/order/enums";
 import { err, ok, type Result } from "@/domain/shared/result";
@@ -40,7 +41,12 @@ function fail(
   code: (typeof CHECKOUT_ERROR_CODES)[keyof typeof CHECKOUT_ERROR_CODES],
   message: string,
   review?: ReturnType<typeof toCheckoutReview>,
+  stage = "validate",
 ): Result<PlacedOrderResult, CheckoutApplicationError> {
+  operationalLog.error("order.place_failed", {
+    stage,
+    error_code: code,
+  });
   return err(checkoutError(code, message, review));
 }
 
@@ -54,6 +60,8 @@ function replayOrConflict(
     return fail(
       CHECKOUT_ERROR_CODES.IDEMPOTENCY_CONFLICT,
       "Ya existe un pedido con esta clave de idempotencia y otra cuenta.",
+      undefined,
+      "idempotency",
     );
   }
 
@@ -63,6 +71,8 @@ function replayOrConflict(
     return fail(
       CHECKOUT_ERROR_CODES.IDEMPOTENCY_CONFLICT,
       "Ya existe un pedido con esta clave de idempotencia y otra intención.",
+      undefined,
+      "idempotency",
     );
   }
 
@@ -95,16 +105,22 @@ export async function placeOrder(
     return fail(
       CHECKOUT_ERROR_CODES.IDEMPOTENCY_KEY_INVALID,
       "La clave de idempotencia no es válida.",
+      undefined,
+      "idempotency",
     );
   }
 
   const existing = await deps.findOrderByIdempotencyKey(keyResult.value);
   if (existing) {
-    return replayOrConflict(existing, input, context);
+    return finishReplay(replayOrConflict(existing, input, context), existing);
   }
 
   const prepared = await prepareOrder(input, deps);
   if (!prepared.ok) {
+    operationalLog.error("order.place_failed", {
+      stage: "prepare",
+      error_code: prepared.error.code,
+    });
     return prepared;
   }
 
@@ -116,6 +132,7 @@ export async function placeOrder(
         CHECKOUT_ERROR_CODES.CHECKOUT_REVIEW_REQUIRED,
         "El pedido cambió desde la última revisión. Revisá los datos actualizados antes de confirmar.",
         toCheckoutReview(prepared.value),
+        "review",
       );
     }
   }
@@ -126,12 +143,20 @@ export async function placeOrder(
   };
   const persisted = await deps.persistPreparedOrder(trustedPrepared);
   if (persisted.status === "created") {
+    operationalLog.info("order.place_ok", {
+      stage: "persist",
+      delivery_type: persisted.order.fulfillmentMethod,
+    });
     return ok({
       ...persisted.order,
       replayed: false,
     });
   }
   if (persisted.status === "rejected") {
+    operationalLog.error("order.place_failed", {
+      stage: "persist",
+      error_code: persisted.error.code,
+    });
     return err(persisted.error);
   }
 
@@ -140,7 +165,22 @@ export async function placeOrder(
     return fail(
       CHECKOUT_ERROR_CODES.ORDER_PERSISTENCE_FAILED,
       "No se pudo confirmar el pedido.",
+      undefined,
+      "persist",
     );
   }
-  return replayOrConflict(winner, input, context);
+  return finishReplay(replayOrConflict(winner, input, context), winner);
+}
+
+function finishReplay(
+  result: Result<PlacedOrderResult, CheckoutApplicationError>,
+  existing: PersistedCheckoutOrder,
+): Result<PlacedOrderResult, CheckoutApplicationError> {
+  if (result.ok) {
+    operationalLog.info("order.place_ok", {
+      stage: "replay",
+      delivery_type: existing.fulfillmentMethod,
+    });
+  }
+  return result;
 }
