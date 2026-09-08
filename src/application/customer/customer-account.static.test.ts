@@ -49,6 +49,9 @@ describe("customer account security and wiring", () => {
   it("adds guarded Google OAuth and requires complete checkout contact", () => {
     const oauth = read("src/app/auth/oauth/actions.ts");
     const continuation = read("src/app/auth/oauth/continue/page.tsx");
+    const continueFlow = read(
+      "src/application/customer/oauth-continue-flow.ts",
+    );
     const checkout = read("src/app/checkout/page.tsx");
     const accountLoader = read("src/app/cuenta/_lib/load-customer.ts");
     const account = read("src/app/cuenta/page.tsx");
@@ -60,10 +63,17 @@ describe("customer account security and wiring", () => {
     expect(oauth).toContain("signInWithOAuth");
     expect(oauth).toContain("sanitizeInternalPath");
     expect(oauth).toContain("isGoogleOAuthEnabled");
-    expect(continuation).toContain("hasCompleteCustomerContact");
-    expect(checkout).toContain('customerProfileHref("/checkout", true)');
-    expect(accountLoader).toContain("hasCompleteCustomerContact");
-    expect(accountLoader).toContain("customerProfileHref(destination, true)");
+    expect(continuation).toContain("resolveOAuthContinueFlow");
+    expect(continuation).toContain("findConflictingAuthUserByEmail");
+    expect(continuation).toContain("ensureUserProfile");
+    expect(continuation).toContain("oauthContinueLoginPath");
+    expect(continueFlow).toContain('"account_exists"');
+    expect(continueFlow).toContain('"oauth_admin_lookup"');
+    expect(continueFlow).toContain('"oauth_email_unverified"');
+    expect(checkout).toContain("missingCustomerContactFields");
+    expect(checkout).toContain('customerProfileHref("/checkout"');
+    expect(accountLoader).toContain("missingCustomerContactFields");
+    expect(accountLoader).toContain("customerProfileHref(destination");
     for (const protectedAccountPage of [account, orderList, orderDetail]) {
       expect(protectedAccountPage).toContain("loadCompleteCustomerPage");
     }

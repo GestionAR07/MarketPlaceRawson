@@ -23,7 +23,15 @@ function friendlyLoginError(code: string | undefined): string | null {
     case "auth_config":
       return "La autenticación no está configurada en este entorno.";
     case "oauth_session":
+    case "oauth_no_session":
+    case "oauth_email_missing":
+    case "oauth_email_unverified":
+    case "oauth_admin_lookup":
+    case "oauth_profile":
+    case "oauth_authorization":
       return "No pudimos completar el acceso con Google. Intentá nuevamente.";
+    case "account_exists":
+      return "Ya existe una cuenta con ese correo. Iniciá sesión con tu contraseña o pedí vincular Google de forma controlada. No creamos una cuenta nueva.";
     default:
       return null;
   }
