@@ -62,11 +62,13 @@ Pedilo ya superó la etapa de MVP técnico y se encuentra en **pre-piloto**. Los
    - guards WRITE_DEV explícitos y separados de CI.
    - auditoría de dependencias registrada (`docs/DEPENDENCY_SECURITY.md`); residual solo en tooling de desarrollo.
    - recuperación de contraseña pública validada end-to-end en DEV (email, callback, `/set-password`, login).
+   - baseline de logging operativo seguro para place/cancel/merchant transition/OAuth, con allowlist y sin PII.
+   - error boundaries propios sin exposición de detalles técnicos.
    - liveness `GET /api/health` (proceso vivo; no es readiness de Postgres/Auth/Storage).
    - guard de entorno (`MARKETPLACE_ENV=production`; no usa `NODE_ENV` como señal).
 
    Pendiente real antes del piloto:
-   - observabilidad mínima (logger y fallos de pedido; sin proveedor externo todavía).
+   - observabilidad central/remota (agregación/retención de logs y captura remota de errores de render; sin proveedor externo todavía).
    - entorno de producción separado (Supabase PROD, dominio, HTTPS, secrets).
    - backup, restore ensayado y cutover: ver [`OPERATIONS.md`](./OPERATIONS.md).
    - QA responsive en Android, iPhone y viewport pequeño.
