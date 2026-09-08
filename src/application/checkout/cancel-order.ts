@@ -1,4 +1,5 @@
 import { parseCancelReason } from "@/domain/order/cancellation";
+import { operationalLog } from "@/lib/operational-log";
 import { ORDER_ACTOR_TYPES, type OrderActorType } from "@/domain/order/enums";
 import { err, ok, type Result } from "@/domain/shared/result";
 import { isValidUuid } from "@/lib/uuid";
@@ -24,7 +25,12 @@ export type CancelOrderDeps = {
 function fail(
   code: (typeof CHECKOUT_ERROR_CODES)[keyof typeof CHECKOUT_ERROR_CODES],
   message: string,
+  stage = "validate",
 ): Result<CanceledOrderResult, CheckoutApplicationError> {
+  operationalLog.error("order.cancel_failed", {
+    stage,
+    error_code: code,
+  });
   return err(checkoutError(code, message));
 }
 
@@ -78,13 +84,23 @@ export async function cancelOrder(
   });
 
   if (persisted.status === "canceled") {
+    operationalLog.info("order.cancel_ok", {
+      stage: "persist",
+      actor_type: actorType,
+      reason_code: reasonResult.value,
+    });
     return ok(persisted.result);
   }
   if (persisted.status === "already_canceled") {
     return fail(
       CHECKOUT_ERROR_CODES.ORDER_ALREADY_CANCELED,
       "El pedido ya está cancelado.",
+      "persist",
     );
   }
+  operationalLog.error("order.cancel_failed", {
+    stage: "persist",
+    error_code: persisted.error.code,
+  });
   return err(persisted.error);
 }

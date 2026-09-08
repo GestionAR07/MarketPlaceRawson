@@ -100,10 +100,11 @@ describe("OAuth continue diagnostic stages", () => {
       code: "oauth_admin_lookup",
       signOut: true,
     });
-    expect(errorSpy).toHaveBeenCalledWith(
-      "[oauth-continue] stage=oauth_admin_lookup",
-    );
-    expect(String(errorSpy.mock.calls[0]?.[0])).not.toContain("API key");
+    const logged = String(errorSpy.mock.calls[0]?.[0]);
+    expect(logged).toContain('"event":"oauth.continue_failed"');
+    expect(logged).toContain('"stage":"oauth_admin_lookup"');
+    expect(logged).not.toContain("API key");
+    expect(logged).not.toContain("owner@example.com");
   });
 
   it("maps a conflicting different UUID to account_exists", async () => {
@@ -194,8 +195,8 @@ describe("OAuth continue diagnostic stages", () => {
   it("logs only the stage code on failure", () => {
     const errorSpy = vi.mocked(console.error);
     logOAuthContinueStage("account_exists");
-    expect(errorSpy).toHaveBeenCalledWith(
-      "[oauth-continue] stage=account_exists",
-    );
+    const logged = String(errorSpy.mock.calls[0]?.[0]);
+    expect(logged).toContain('"event":"oauth.continue_failed"');
+    expect(logged).toContain('"stage":"account_exists"');
   });
 });

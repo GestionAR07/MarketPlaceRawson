@@ -27,6 +27,16 @@ describe("checkout order persistence static checks", () => {
     expect(repo).not.toContain("db:push");
   });
 
+  it("logs place and cancel outcomes without changing the use-case contract", () => {
+    const place = read("src/application/checkout/place-order.ts");
+    const cancel = read("src/application/checkout/cancel-order.ts");
+    expect(place).toContain('operationalLog.error("order.place_failed"');
+    expect(place).toContain('operationalLog.info("order.place_ok"');
+    expect(cancel).toContain('operationalLog.error("order.cancel_failed"');
+    expect(cancel).toContain('operationalLog.info("order.cancel_ok"');
+    expect(place).not.toContain("error.message");
+  });
+
   it("does not expose placeOrder as a public Server Action", () => {
     const wiring = read("src/application/checkout/wiring.ts");
     expect(wiring).toContain("placeOrderApp");

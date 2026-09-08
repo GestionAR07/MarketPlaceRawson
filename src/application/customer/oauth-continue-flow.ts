@@ -11,6 +11,7 @@ import {
 } from "@/application/customer/oauth-continuation";
 import type { CustomerContactProfile } from "@/application/customer/profile";
 import { normalizeEmail } from "@/lib/email";
+import { operationalLog } from "@/lib/operational-log";
 import { AuthzError, isAuthzError } from "@/server/auth/errors";
 import type { PlatformRole } from "@/server/auth/types";
 
@@ -53,7 +54,7 @@ export type OAuthContinueDependencies = {
 
 /** Failures only — never logs email, UUID, tokens, or free-form Admin payloads. */
 export function logOAuthContinueStage(stage: OAuthContinueErrorCode): void {
-  console.error(`[oauth-continue] stage=${stage}`);
+  operationalLog.error("oauth.continue_failed", { stage });
 }
 
 export function oauthContinueLoginPath(code: OAuthContinueErrorCode): string {

@@ -15,6 +15,7 @@ describe("drizzle.config.ts env loading", () => {
 
   it("requires DATABASE_URL via getDatabaseConfig — no localhost fallback", () => {
     expect(config).toContain("getDatabaseConfig");
+    expect(config).not.toContain("next/");
     expect(config).not.toContain("127.0.0.1");
     expect(config).not.toContain("marketplace_rawson_dev");
     expect(config).not.toMatch(/postgresql:\/\/postgres:postgres@/);

@@ -2,6 +2,7 @@ import "server-only";
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { assertSafeRuntimeEnvironment } from "@/config/runtime-environment";
 import { getSupabasePublicConfig } from "./env";
 
 /**
@@ -9,6 +10,7 @@ import { getSupabasePublicConfig } from "./env";
  * Session cookies are verified via Supabase Auth APIs — do not trust raw cookies alone.
  */
 export async function createSupabaseServerClient() {
+  assertSafeRuntimeEnvironment();
   const { url, publishableKey } = getSupabasePublicConfig();
   const cookieStore = await cookies();
 

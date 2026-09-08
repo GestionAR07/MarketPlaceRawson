@@ -45,6 +45,10 @@ describe("merchant order transition core static checks", () => {
     expect(useCase).toContain("ORDER_TRANSITION_CANCEL_FORBIDDEN");
     expect(useCase).toContain("ORDER_TRANSITION_COMPLETE_FORBIDDEN");
     expect(useCase).toContain("transitionOrderStatus");
+    expect(useCase).toContain(
+      'operationalLog.error("merchant.transition_failed"',
+    );
+    expect(useCase).toContain('operationalLog.info("merchant.transition_ok"');
     expect(useCase).not.toContain('"use server"');
     expect(repo).not.toContain('"use server"');
   });

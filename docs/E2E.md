@@ -137,4 +137,8 @@ No agregar a CI ordinario el sentinel WRITE_DEV, `SUPABASE_SECRET_KEY` ni creden
 
 ## Estado pre-piloto
 
-La base E2E crítica de comprador/comercio y multitenancy está validada. El trabajo pre-piloto pasa a concentrarse en responsive real, recuperación de contraseña pública, observabilidad/dependencias y preparación de producción, sin debilitar los guards existentes.
+La base E2E crítica de comprador/comercio y multitenancy está validada. La recuperación de contraseña pública ya se validó end-to-end en DEV (email real, callback, `/set-password`, login); eso no forma parte de Playwright CI.
+
+READ_ONLY sigue siendo el único modo apto para CI: `npm run e2e` ignora `*.write.spec.ts` y no usa `SUPABASE_SECRET_KEY`. WRITE_DEV permanece explícito (`npm run e2e:dev` + `E2E_ALLOW_WRITES`) y no debe entrar a CI automático.
+
+La baseline de logging operativo seguro ya está implementada. Lo que sigue pendiente en observabilidad es la agregación/retención central de logs y la captura remota de errores de render, además del entorno PROD, backup/restore y QA en dispositivos reales. Ver [`OPERATIONS.md`](./OPERATIONS.md).

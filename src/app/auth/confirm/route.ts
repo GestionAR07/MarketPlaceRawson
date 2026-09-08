@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import { assertSafeRuntimeEnvironment } from "@/config/runtime-environment";
 import {
   getSupabasePublicConfig,
   hasSupabasePublicConfig,
@@ -25,6 +26,8 @@ import { sanitizeInternalPath } from "@/lib/safe-redirect";
  * assuming the user is a merchant invite.
  */
 export async function GET(request: NextRequest) {
+  assertSafeRuntimeEnvironment();
+
   if (!hasSupabasePublicConfig()) {
     return NextResponse.redirect(
       new URL("/login?error=auth_config", request.url),
