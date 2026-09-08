@@ -32,6 +32,10 @@ La UI pública “Olvidé mi contraseña” solicita recovery mediante Supabase 
 
 El flujo externo real quedó validado en DEV: email de recuperación → enlace de Supabase → callback a Pedilo → `/set-password` → contraseña nueva persistida → retorno al login. Reutilizar la contraseña actual muestra “La nueva contraseña debe ser distinta de la contraseña actual.”
 
+### `DEPENDENCY_SECURITY_AUDIT_RECORDED`
+
+`docs/DEPENDENCY_SECURITY.md` registra `npm audit` del lockfile: hallazgos moderate solo en `drizzle-kit` / esbuild de desarrollo, no en el runtime de Next. No sustituye observabilidad ni un entorno PROD.
+
 ## Catálogo y storefront
 
 ### `PRODUCT_IMAGES_STORAGE_READY`
@@ -120,16 +124,31 @@ Merge de referencia: PR #17, `92878e3` en `main`.
 
 ## Estado actual
 
+### `PRE_PILOT_OPERATIONS_BASELINE_IN_PROGRESS`
+
+Runbook en [`OPERATIONS.md`](./OPERATIONS.md). No marca como hecho lo que la app todavía no tiene.
+
+Hecho en esta baseline documental:
+
+- separación DEV/PROD, migraciones, backup, restore, rollback, incidentes y cutover de Auth descritos;
+- recuperación de contraseña E2E DEV ya validada;
+- auditoría de dependencias registrada.
+
+Sigue pendiente de implementación o de operación externa:
+
+- logger mínimo y eventos de fallo de pedido;
+- `error.tsx` / `global-error.tsx` / health;
+- proyecto Supabase PROD, dominio, HTTPS y secrets de hosting;
+- backup inicial y ensayo de restore en proyecto descartable;
+- QA en Android, iPhone y viewport pequeño.
+
 ### `PRE_PILOT_POLISH_IN_PROGRESS`
 
-Trabajo actual:
+Sigue en paralelo, sin cerrar operación:
 
 - eliminar warnings conocidos;
 - endurecer fallbacks públicos;
-- accesibilidad y responsive final;
-- actualizar documentación operativa;
-- revisar dependencias/observabilidad;
-- preparar entorno productivo separado de DEV.
+- accesibilidad y responsive final.
 
 ## Próximo checkpoint objetivo
 

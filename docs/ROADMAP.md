@@ -54,13 +54,22 @@ Pedilo ya superó la etapa de MVP técnico y se encuentra en **pre-piloto**. Los
    - Realtime privado y alertas de nuevos pedidos.
 
 8. **Hardening y pre-piloto — en curso**
-   - batería E2E buyer/merchant real en DEV: completada para los escenarios críticos.
-   - multitenancy merchant y RLS adversarial: completado.
-   - pulido de warnings, fallbacks públicos, accesibilidad y documentación: en curso.
-   - QA responsive final en teléfonos reales: pendiente.
-   - recuperación de contraseña pública (“Olvidé mi contraseña”): validada en DEV (email real, callback, `/set-password`, login).
-   - revisión de vulnerabilidades/dependencias y observabilidad operativa: pendiente.
-   - preparación de entorno de producción, dominio, HTTPS, variables, backups/logs: pendiente.
+
+   Completado:
+   - batería E2E buyer/merchant real en DEV para los escenarios críticos.
+   - multitenancy merchant y RLS adversarial.
+   - CI READ_ONLY (lint, typecheck, test, format, build, Playwright sin WRITE_DEV).
+   - guards WRITE_DEV explícitos y separados de CI.
+   - auditoría de dependencias registrada (`docs/DEPENDENCY_SECURITY.md`); residual solo en tooling de desarrollo.
+   - recuperación de contraseña pública validada end-to-end en DEV (email, callback, `/set-password`, login).
+
+   Pendiente real antes del piloto:
+   - observabilidad mínima (logger y fallos de pedido; sin proveedor externo todavía).
+   - entorno de producción separado (Supabase PROD, dominio, HTTPS, secrets).
+   - backup, restore ensayado y cutover: ver [`OPERATIONS.md`](./OPERATIONS.md).
+   - error boundaries y health endpoint.
+   - QA responsive en Android, iPhone y viewport pequeño.
+   - pulido de warnings, fallbacks públicos y accesibilidad: en curso.
 
 9. **Piloto Rawson + Playa Unión — siguiente hito**
    - cargar un comercio real de manera controlada.
@@ -100,7 +109,8 @@ No se requiere “cero bugs” para comenzar un piloto controlado, pero sí:
 - operación merchant completa para retiro y delivery propio;
 - experiencia móvil suficientemente estable;
 - entorno productivo separado de DEV;
-- estrategia mínima de logs, backups y recuperación;
+- backup inicial, procedimiento de restore y cutover documentados en [`OPERATIONS.md`](./OPERATIONS.md);
+- logs mínimos, error boundaries y health (aún no implementados en la app);
 - canal operativo para resolver incidentes del comercio piloto.
 
 Las funcionalidades posteriores no deben bloquear el piloto si no comprometen seguridad, dinero, pedidos, stock o capacidad de recuperación.
