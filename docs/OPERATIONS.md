@@ -269,6 +269,8 @@ Si el logger falla al serializar, no debe romper el pedido. Storage upload e Aut
 
 Los fallos de render usan `src/app/error.tsx`, `global-error.tsx` y `not-found.tsx`. Esas pantallas no muestran `error.message`, stack ni digest, y no envían el objeto Error al logger. La captura remota de errores de cliente (Sentry u otro proveedor) sigue fuera de alcance.
 
+`GET /api/health` es solo liveness: HTTP 200 y `{"status":"ok"}` si el proceso Next responde. No prueba PostgreSQL, Auth ni Storage. No escribe logs. Un chequeo de readiness queda para más adelante, cuando un balanceador lo necesite de verdad.
+
 ## 12. Credenciales
 
 - Los secrets no van a Git, capturas, chats ni issues.
@@ -321,7 +323,7 @@ No iniciar con comercios reales si falta un ítem de INFRA o AUTH. OPERATIONS ma
 - [x] error boundaries propios (sin captura remota de render)
 - [ ] backup
 - [ ] restore ensayado en proyecto descartable
-- [ ] health endpoint (aún no implementado)
+- [x] health de liveness (`GET /api/health`; no es readiness)
 - [ ] canal humano de incidente
 
 ### DEVICES
