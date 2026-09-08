@@ -267,6 +267,8 @@ Prohibido en logs: passwords, tokens, cookies, Authorization, service role, keys
 
 Si el logger falla al serializar, no debe romper el pedido. Storage upload e Auth invite todavía no emiten eventos.
 
+Los fallos de render usan `src/app/error.tsx`, `global-error.tsx` y `not-found.tsx`. Esas pantallas no muestran `error.message`, stack ni digest, y no envían el objeto Error al logger. La captura remota de errores de cliente (Sentry u otro proveedor) sigue fuera de alcance.
+
 ## 12. Credenciales
 
 - Los secrets no van a Git, capturas, chats ni issues.
@@ -316,7 +318,7 @@ No iniciar con comercios reales si falta un ítem de INFRA o AUTH. OPERATIONS ma
 ### OPERATIONS
 
 - [x] logs mínimos de fallos de pedido (baseline; sin proveedor externo)
-- [ ] error boundaries (aún no implementados)
+- [x] error boundaries propios (sin captura remota de render)
 - [ ] backup
 - [ ] restore ensayado en proyecto descartable
 - [ ] health endpoint (aún no implementado)

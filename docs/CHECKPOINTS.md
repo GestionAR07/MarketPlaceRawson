@@ -126,7 +126,11 @@ Merge de referencia: PR #17, `92878e3` en `main`.
 
 ### `PRE_PILOT_SAFE_OPERATIONAL_LOGGING_IMPLEMENTED`
 
-Logger central `src/lib/operational-log.ts` con allowlist. Eventos P0 de place, cancel, transición merchant y fallo OAuth. No registra PII, tokens ni `Error.message`. No es observabilidad completa: no hay health, error boundaries ni sink externo.
+Logger central `src/lib/operational-log.ts` con allowlist. Eventos P0 de place, cancel, transición merchant y fallo OAuth. No registra PII, tokens ni `Error.message`. No es observabilidad completa: no hay health ni sink externo.
+
+### `PRE_PILOT_SAFE_ERROR_BOUNDARIES_IMPLEMENTED`
+
+`src/app/error.tsx`, `global-error.tsx` y `not-found.tsx` muestran copy Pedilo y un retorno a `/`. No renderizan `error.message`, stack ni digest. `global-error` reemplaza el root layout y no importa Auth, DB ni Supabase. Los fallos de render del cliente todavía no tienen captura remota.
 
 ### `PRE_PILOT_OPERATIONS_BASELINE_IN_PROGRESS`
 
@@ -140,7 +144,7 @@ Hecho en esta baseline documental:
 
 Sigue pendiente de implementación o de operación externa:
 
-- `error.tsx` / `global-error.tsx` / health;
+- health endpoint;
 - proyecto Supabase PROD, dominio, HTTPS y secrets de hosting;
 - backup inicial y ensayo de restore en proyecto descartable;
 - QA en Android, iPhone y viewport pequeño.
