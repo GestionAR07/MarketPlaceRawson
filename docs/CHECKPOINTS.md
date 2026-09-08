@@ -26,7 +26,11 @@ Supabase Auth SSR, perfiles, roles, login/logout, ADMIN y memberships merchant v
 
 ### `PUBLIC_PASSWORD_RECOVERY_IMPLEMENTED`
 
-La UI pública “Olvidé mi contraseña” solicita recovery mediante Supabase sin usar privilegios admin, mantiene respuesta neutral para no revelar existencia de cuentas y reutiliza `/auth/confirm` → `/set-password`. La entrega real de email y el callback completo quedan como validación manual DEV antes de considerar cerrado el flujo externo.
+La UI pública “Olvidé mi contraseña” solicita recovery mediante Supabase sin usar privilegios admin, mantiene respuesta neutral para no revelar existencia de cuentas y reutiliza `/auth/confirm` → `/set-password`.
+
+### `PUBLIC_PASSWORD_RECOVERY_END_TO_END_VALIDATED`
+
+El flujo externo real quedó validado en DEV: email de recuperación → enlace de Supabase → callback a Pedilo → `/set-password` → contraseña nueva persistida → retorno al login. Reutilizar la contraseña actual muestra “La nueva contraseña debe ser distinta de la contraseña actual.”
 
 ## Catálogo y storefront
 
@@ -125,7 +129,6 @@ Trabajo actual:
 - accesibilidad y responsive final;
 - actualizar documentación operativa;
 - revisar dependencias/observabilidad;
-- validar en DEV la entrega/callback real de recuperación de contraseña pública;
 - preparar entorno productivo separado de DEV.
 
 ## Próximo checkpoint objetivo
