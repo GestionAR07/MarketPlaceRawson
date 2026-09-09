@@ -5,6 +5,9 @@ on:
     branches: [main, "feat/**", "chore/**"]
   pull_request:
 
+permissions:
+  contents: write
+
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -28,30 +31,65 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Capture dependency evidence
+      - name: Build minimal js-yaml lock patch
         run: |
-          npm audit --json > dependency-audit-full.json || true
-          npm audit --omit=dev --json > dependency-audit-prod.json || true
-          npm ls js-yaml vitest @vitest/mocker drizzle-kit @esbuild-kit/esm-loader @esbuild-kit/core-utils esbuild --all --json > dependency-tree.json || true
-          cp package-lock.json package-lock.before.json
+          cp package-lock.json package-lock.original.json
           npm update js-yaml --package-lock-only --ignore-scripts
-          cp package-lock.json package-lock.after-js-yaml.json
-          npm audit --json > dependency-audit-after-js-yaml.json || true
+          cp package-lock.json package-lock.generated.json
+          node <<'NODE'
+          const fs = require('fs');
+          const original = JSON.parse(fs.readFileSync('package-lock.original.json', 'utf8'));
+          const generated = JSON.parse(fs.readFileSync('package-lock.generated.json', 'utf8'));
+          const key = 'node_modules/js-yaml';
+          if (!original.packages?.[key] || !generated.packages?.[key]) {
+            throw new Error('js-yaml package entry not found');
+          }
+          if (generated.packages[key].version !== '4.3.2') {
+            throw new Error(`Expected js-yaml 4.3.2, got ${generated.packages[key].version}`);
+          }
+          original.packages[key] = generated.packages[key];
+          fs.writeFileSync('package-lock.json', JSON.stringify(original, null, 2) + '\n');
+          NODE
 
-      - name: Upload dependency evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-audit-refresh-deep
-          path: |
-            dependency-audit-full.json
-            dependency-audit-prod.json
-            dependency-tree.json
-            package-lock.before.json
-            package-lock.after-js-yaml.json
-            dependency-audit-after-js-yaml.json
+      - name: Verify patch scope
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const before = JSON.parse(fs.readFileSync('package-lock.original.json', 'utf8'));
+          const after = JSON.parse(fs.readFileSync('package-lock.json', 'utf8'));
+          const changed = [];
+          const keys = new Set([...Object.keys(before.packages || {}), ...Object.keys(after.packages || {})]);
+          for (const key of keys) {
+            if (JSON.stringify(before.packages?.[key]) !== JSON.stringify(after.packages?.[key])) changed.push(key);
+          }
+          if (changed.length !== 1 || changed[0] !== 'node_modules/js-yaml') {
+            throw new Error(`Unexpected package-lock changes: ${changed.join(', ')}`);
+          }
+          console.log('Minimal package change verified:', changed[0]);
+          NODE
+          git diff -- package-lock.json
 
-      - name: Restore original lockfile
-        run: cp package-lock.before.json package-lock.json
+      - name: Validate patched dependencies
+        run: |
+          rm -rf node_modules
+          npm ci
+          npm audit --json > dependency-audit-patched.json || true
+          npm audit --omit=dev --json > dependency-audit-prod-patched.json || true
+          node <<'NODE'
+          const fs = require('fs');
+          const full = JSON.parse(fs.readFileSync('dependency-audit-patched.json', 'utf8'));
+          const prod = JSON.parse(fs.readFileSync('dependency-audit-prod-patched.json', 'utf8'));
+          const fullMeta = full.metadata?.vulnerabilities || {};
+          const prodMeta = prod.metadata?.vulnerabilities || {};
+          if ((fullMeta.high || 0) !== 0 || (fullMeta.critical || 0) !== 0) {
+            throw new Error(`High/critical vulnerabilities remain: ${JSON.stringify(fullMeta)}`);
+          }
+          if ((prodMeta.total || 0) !== 0) {
+            throw new Error(`Production vulnerabilities remain: ${JSON.stringify(prodMeta)}`);
+          }
+          console.log('Patched audit:', fullMeta);
+          console.log('Production audit:', prodMeta);
+          NODE
 
       - name: Lint
         run: npm run lint
@@ -67,6 +105,16 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Commit minimal lock patch
+        if: github.ref == 'refs/heads/chore/dependency-audit-refresh'
+        run: |
+          git config user.name "GestionAR07"
+          git config user.email "eliasrawson@gmail.com"
+          git add package-lock.json
+          git diff --cached --check
+          git commit -m "chore: patch js-yaml advisory [skip ci]"
+          git push origin HEAD:chore/dependency-audit-refresh
 
   e2e:
     name: E2E (Playwright Chromium)
