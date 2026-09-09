@@ -126,6 +126,7 @@ describe("merchant inbox realtime static checks", () => {
       "0006_uneven_patriot.sql",
       "0007_customer_accounts.sql",
       "0008_breezy_iron_man.sql",
+      "0009_harden_trigger_function_execute.sql",
     ]);
 
     for (const file of sqlFiles) {
