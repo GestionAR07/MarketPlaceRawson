@@ -37,6 +37,28 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Format admin redesign files
+        run: >-
+          npx prettier --write
+          src/app/admin/geography/geography-forms.tsx
+          src/app/admin/merchant-applications/application-approve-form.tsx
+          src/app/admin/merchant-applications/page.tsx
+          'src/app/admin/merchants/[merchantId]/page.tsx'
+          src/app/admin/merchants/merchant-create-form.tsx
+          src/app/admin/merchants/new/page.tsx
+
+      - name: Upload formatted admin redesign files
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-redesign-prettier-final
+          path: |
+            src/app/admin/geography/geography-forms.tsx
+            src/app/admin/merchant-applications/application-approve-form.tsx
+            src/app/admin/merchant-applications/page.tsx
+            src/app/admin/merchants/[merchantId]/page.tsx
+            src/app/admin/merchants/merchant-create-form.tsx
+            src/app/admin/merchants/new/page.tsx
+
       - name: Format check
         run: npm run format:check
 
