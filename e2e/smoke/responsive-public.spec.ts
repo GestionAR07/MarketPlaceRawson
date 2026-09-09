@@ -44,7 +44,9 @@ async function expectPublicRouteUsable(page: Page, path: string) {
       ).toBeVisible();
       await expect(page.getByLabel("Email")).toBeVisible();
       await expect(page.getByLabel("Contraseña")).toBeVisible();
-      await expect(page.getByRole("button", { name: "Ingresar" })).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: "Ingresar" }),
+      ).toBeVisible();
       return;
     case "/forgot-password":
       await expect(
@@ -71,23 +73,20 @@ async function expectPublicRouteUsable(page: Page, path: string) {
 const PUBLIC_ROUTES = ["/", "/login", "/forgot-password", "/carrito"] as const;
 
 test.describe("pre-pilot responsive public QA (READ_ONLY)", () => {
-  for (const [viewportName, viewport] of Object.entries(
-    E2E_PHONE_VIEWPORTS,
-  )) {
+  for (const [viewportName, viewport] of Object.entries(E2E_PHONE_VIEWPORTS)) {
     for (const path of PUBLIC_ROUTES) {
-      test(
-        `${path} stays usable without page overflow at ${viewportName} ${viewport.width}x${viewport.height}`,
-        async ({ page }) => {
-          const { errors } = attachPageCrashGuard(page);
-          await page.setViewportSize(viewport);
-          await page.goto(path, { waitUntil: "domcontentloaded" });
+      test(`${path} stays usable without page overflow at ${viewportName} ${viewport.width}x${viewport.height}`, async ({
+        page,
+      }) => {
+        const { errors } = attachPageCrashGuard(page);
+        await page.setViewportSize(viewport);
+        await page.goto(path, { waitUntil: "domcontentloaded" });
 
-          await expectPublicRouteUsable(page, path);
-          await expectNoHorizontalPageOverflow(page);
-          await expectNoNextCrashOverlay(page);
-          expect(errors).toEqual([]);
-        },
-      );
+        await expectPublicRouteUsable(page, path);
+        await expectNoHorizontalPageOverflow(page);
+        await expectNoNextCrashOverlay(page);
+        expect(errors).toEqual([]);
+      });
     }
   }
 });
