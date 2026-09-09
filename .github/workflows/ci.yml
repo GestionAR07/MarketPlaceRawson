@@ -100,6 +100,9 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Remove temporary audit files
+        run: rm -f package-lock.original.json package-lock.generated.json dependency-audit-patched.json dependency-audit-prod-patched.json
+
       - name: Format check
         run: npm run format:check
 
