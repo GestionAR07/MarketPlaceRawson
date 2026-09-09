@@ -69,9 +69,7 @@ export function ApplicationApproveForm({
       </div>
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-bold text-[#083f66]">
-          Preparación estimada
-        </span>
+        <span className="font-bold text-[#083f66]">Preparación estimada</span>
         <div className="relative">
           <input
             type="number"
