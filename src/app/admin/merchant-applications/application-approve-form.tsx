@@ -33,47 +33,66 @@ export function ApplicationApproveForm({
   }, [state.merchantId, router]);
 
   return (
-    <form action={formAction} className="flex max-w-lg flex-col gap-4">
+    <form action={formAction} className="grid gap-4">
       <input type="hidden" name="applicationId" value={applicationId} />
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium">Slug</span>
+        <span className="font-bold text-[#083f66]">Identificador público</span>
         <input
           name="slug"
           required
           defaultValue={defaultSlug}
           placeholder="mi-comercio"
-          className="rounded-md border border-border bg-background px-3 py-2"
+          className="min-h-11 rounded-xl border border-sky-100 bg-white px-3.5 text-slate-700 outline-none transition placeholder:text-slate-300 focus:border-[#20aee5] focus:ring-2 focus:ring-sky-100"
         />
       </label>
 
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" name="pickupEnabled" defaultChecked />
-        <span>Retiro habilitado</span>
-      </label>
+      <div className="grid gap-2 rounded-2xl bg-slate-50 p-3.5">
+        <label className="flex items-center gap-3 text-sm font-semibold text-slate-600">
+          <input
+            type="checkbox"
+            name="pickupEnabled"
+            defaultChecked
+            className="h-4 w-4 accent-[#20aee5]"
+          />
+          <span>Habilitar retiro en el comercio</span>
+        </label>
 
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" name="merchantDeliveryEnabled" />
-        <span>Delivery propio habilitado</span>
-      </label>
+        <label className="flex items-center gap-3 text-sm font-semibold text-slate-600">
+          <input
+            type="checkbox"
+            name="merchantDeliveryEnabled"
+            className="h-4 w-4 accent-[#20aee5]"
+          />
+          <span>Habilitar delivery propio</span>
+        </label>
+      </div>
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium">
-          Tiempo estimado de preparación (minutos)
+        <span className="font-bold text-[#083f66]">
+          Preparación estimada
         </span>
-        <input
-          type="number"
-          name="preparationMinutes"
-          min={0}
-          max={1440}
-          defaultValue={30}
-          required
-          className="rounded-md border border-border bg-background px-3 py-2"
-        />
+        <div className="relative">
+          <input
+            type="number"
+            name="preparationMinutes"
+            min={0}
+            max={1440}
+            defaultValue={30}
+            required
+            className="min-h-11 w-full rounded-xl border border-sky-100 bg-white px-3.5 pr-20 text-slate-700 outline-none transition focus:border-[#20aee5] focus:ring-2 focus:ring-sky-100"
+          />
+          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs font-bold text-slate-400">
+            minutos
+          </span>
+        </div>
       </label>
 
       {state.error ? (
-        <p className="text-sm text-red-800" role="alert">
+        <p
+          className="rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"
+          role="alert"
+        >
           {state.error}
         </p>
       ) : null}
@@ -81,9 +100,9 @@ export function ApplicationApproveForm({
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#20aee5] px-4 text-sm font-extrabold text-white shadow-[0_8px_22px_rgba(32,174,229,0.2)] transition hover:bg-[#159ed4] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? "Aprobando…" : "Aprobar solicitud"}
+        {pending ? "Aprobando…" : "Aprobar y crear comercio"}
       </button>
     </form>
   );
