@@ -75,18 +75,19 @@ test.describe("pre-pilot responsive public QA (READ_ONLY)", () => {
     E2E_PHONE_VIEWPORTS,
   )) {
     for (const path of PUBLIC_ROUTES) {
-      test(`${path} stays usable without page overflow at ${viewportName} ${viewport.width}x${viewport.height}`, async ({
-        page,
-      }) => {
-        const { errors } = attachPageCrashGuard(page);
-        await page.setViewportSize(viewport);
-        await page.goto(path, { waitUntil: "domcontentloaded" });
+      test(
+        `${path} stays usable without page overflow at ${viewportName} ${viewport.width}x${viewport.height}`,
+        async ({ page }) => {
+          const { errors } = attachPageCrashGuard(page);
+          await page.setViewportSize(viewport);
+          await page.goto(path, { waitUntil: "domcontentloaded" });
 
-        await expectPublicRouteUsable(page, path);
-        await expectNoHorizontalPageOverflow(page);
-        await expectNoNextCrashOverlay(page);
-        expect(errors).toEqual([]);
-      });
+          await expectPublicRouteUsable(page, path);
+          await expectNoHorizontalPageOverflow(page);
+          await expectNoNextCrashOverlay(page);
+          expect(errors).toEqual([]);
+        },
+      );
     }
   }
 });
