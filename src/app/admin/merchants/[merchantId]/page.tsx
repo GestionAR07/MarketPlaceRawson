@@ -178,7 +178,8 @@ export default async function AdminMerchantDetailPage({ params }: PageProps) {
                         : "bg-slate-100 text-slate-400 ring-slate-200"
                     }`}
                   >
-                    Retiro {merchant.pickupEnabled ? "habilitado" : "deshabilitado"}
+                    Retiro{" "}
+                    {merchant.pickupEnabled ? "habilitado" : "deshabilitado"}
                   </span>
                   <span
                     className={`rounded-xl px-3 py-2 text-xs font-bold ring-1 ring-inset ${
