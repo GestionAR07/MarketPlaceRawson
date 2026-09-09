@@ -121,7 +121,10 @@ export default async function NewMerchantPage() {
               "Publicar al menos un producto disponible.",
               "Revisar requisitos y activar el comercio.",
             ].map((step, index) => (
-              <li key={step} className="flex gap-3 rounded-xl bg-slate-50 p-3.5">
+              <li
+                key={step}
+                className="flex gap-3 rounded-xl bg-slate-50 p-3.5"
+              >
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-100 text-xs font-extrabold text-[#1498cf]">
                   {index + 1}
                 </span>
