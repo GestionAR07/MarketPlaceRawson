@@ -28,14 +28,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Capture dependency audit
-        run: npm audit --json > dependency-audit.json || true
+      - name: Capture dependency evidence
+        run: |
+          npm audit --json > dependency-audit-full.json || true
+          npm audit --omit=dev --json > dependency-audit-prod.json || true
+          npm ls js-yaml vitest @vitest/mocker drizzle-kit @esbuild-kit/esm-loader @esbuild-kit/core-utils esbuild --all --json > dependency-tree.json || true
+          cp package-lock.json package-lock.before.json
+          npm update js-yaml --package-lock-only --ignore-scripts
+          cp package-lock.json package-lock.after-js-yaml.json
+          npm audit --json > dependency-audit-after-js-yaml.json || true
 
-      - name: Upload dependency audit
+      - name: Upload dependency evidence
         uses: actions/upload-artifact@v4
         with:
-          name: dependency-audit-refresh
-          path: dependency-audit.json
+          name: dependency-audit-refresh-deep
+          path: |
+            dependency-audit-full.json
+            dependency-audit-prod.json
+            dependency-tree.json
+            package-lock.before.json
+            package-lock.after-js-yaml.json
+            dependency-audit-after-js-yaml.json
+
+      - name: Restore original lockfile
+        run: cp package-lock.before.json package-lock.json
 
       - name: Lint
         run: npm run lint
