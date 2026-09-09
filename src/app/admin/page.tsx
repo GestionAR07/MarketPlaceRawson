@@ -210,7 +210,8 @@ export default async function AdminPage() {
     {
       label: "Zonas configuradas",
       value: zones.length,
-      helper: zones.length > 0 ? "Disponibles para operar" : "Sin zonas cargadas",
+      helper:
+        zones.length > 0 ? "Disponibles para operar" : "Sin zonas cargadas",
       icon: "pin" as const,
       iconClass: "bg-emerald-100 text-emerald-700",
     },
@@ -405,7 +406,8 @@ export default async function AdminPage() {
                         {application.businessName}
                       </p>
                       <p className="mt-0.5 truncate text-xs text-slate-400">
-                        {application.cityName} · {formatDate(application.createdAt)}
+                        {application.cityName} ·{" "}
+                        {formatDate(application.createdAt)}
                       </p>
                     </div>
                     <span
