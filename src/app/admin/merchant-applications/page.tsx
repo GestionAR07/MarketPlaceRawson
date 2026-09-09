@@ -69,7 +69,9 @@ export default async function AdminMerchantApplicationsPage() {
 
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <article className="rounded-2xl border border-sky-100/80 bg-white p-5 shadow-[0_8px_30px_rgba(8,63,102,0.05)]">
-          <p className="text-sm font-semibold text-slate-500">Total recibidas</p>
+          <p className="text-sm font-semibold text-slate-500">
+            Total recibidas
+          </p>
           <p className="mt-1 text-3xl font-extrabold tracking-tight text-[#083f66]">
             {applications.length}
           </p>
