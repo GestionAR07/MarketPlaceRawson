@@ -152,7 +152,10 @@ export function AdminNav() {
             <PublicBrandWordmark size="compact" surface="dark" />
           </Link>
           <form action={logoutAction}>
-            <button type="submit" className="text-xs font-semibold text-white/75">
+            <button
+              type="submit"
+              className="text-xs font-semibold text-white/75"
+            >
               Salir
             </button>
           </form>
