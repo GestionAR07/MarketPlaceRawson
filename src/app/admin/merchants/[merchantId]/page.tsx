@@ -145,7 +145,9 @@ export default async function AdminMerchantDetailPage({ params }: PageProps) {
                   {merchant.zoneName}
                 </dd>
                 {cityDiffersFromZone ? (
-                  <dd className="text-xs text-slate-400">{merchant.cityName}</dd>
+                  <dd className="text-xs text-slate-400">
+                    {merchant.cityName}
+                  </dd>
                 ) : null}
               </div>
               <div>
@@ -275,7 +277,9 @@ export default async function AdminMerchantDetailPage({ params }: PageProps) {
 
               <div className="border-t border-slate-100 pt-5">
                 <h3 className="font-extrabold text-[#083f66]">
-                  {hasOwner ? "Invitar otro propietario" : "Invitar propietario"}
+                  {hasOwner
+                    ? "Invitar otro propietario"
+                    : "Invitar propietario"}
                 </h3>
                 <p className="mt-1 mb-4 text-sm text-slate-500">
                   {hasOwner
