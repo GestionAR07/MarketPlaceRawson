@@ -30,43 +30,62 @@ export function ActivateMerchantForm({
 
   if (status === "ACTIVE") {
     return (
-      <p className="text-sm text-accent" role="status">
-        Comercio activo y habilitado para aparecer públicamente.
-      </p>
+      <div
+        className="rounded-2xl bg-emerald-50 p-4 ring-1 ring-emerald-100 ring-inset"
+        role="status"
+      >
+        <p className="text-sm font-extrabold text-emerald-800">
+          Comercio activo
+        </p>
+        <p className="mt-1 text-sm leading-6 text-emerald-700">
+          Está habilitado para aparecer públicamente y operar en Pedilo.
+        </p>
+      </div>
     );
   }
 
   if (status !== "DRAFT") {
     return (
-      <p className="text-sm text-muted">
-        Este estado no se modifica desde el onboarding. La reactivación de un
-        comercio suspendido se gestiona por separado.
-      </p>
+      <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100 ring-inset">
+        <p className="text-sm font-bold text-slate-600">
+          La activación no está disponible en este estado.
+        </p>
+        <p className="mt-1 text-xs leading-5 text-slate-400">
+          La reactivación de comercios pausados o inactivos se gestiona por
+          separado.
+        </p>
+      </div>
     );
   }
 
   return (
     <form action={formAction} className="space-y-3">
       {state.error ? (
-        <p className="text-sm text-red-800" role="alert">
+        <p
+          className="rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"
+          role="alert"
+        >
           {state.error}
         </p>
       ) : null}
       {state.success ? (
-        <p className="text-sm text-accent" role="status">
+        <p
+          className="rounded-xl bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700"
+          role="status"
+        >
           {state.success}
         </p>
       ) : null}
       <button
         type="submit"
         disabled={pending || !ready}
-        className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#20aee5] px-4 text-sm font-extrabold text-white shadow-[0_8px_22px_rgba(32,174,229,0.2)] transition hover:bg-[#159ed4] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
       >
         {pending ? "Activando…" : "Activar comercio"}
       </button>
       {!ready ? (
-        <p className="text-xs text-muted">
-          Completá los requisitos pendientes antes de activar.
+        <p className="text-center text-xs font-medium leading-5 text-slate-400">
+          Completá los requisitos pendientes para habilitar esta acción.
         </p>
       ) : null}
     </form>

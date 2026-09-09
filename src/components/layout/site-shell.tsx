@@ -13,6 +13,9 @@ const OPERATIONAL_SHELL =
 const MERCHANT_OPS_SHELL =
   "merchant-ops flex min-h-dvh w-full min-w-0 flex-col px-4 py-4 sm:px-6 sm:py-6 lg:px-8";
 
+const ADMIN_OPS_SHELL =
+  "admin-ops flex min-h-dvh w-full min-w-0 max-w-full flex-col bg-[#f4f8fb]";
+
 const PUBLIC_STOREFRONT_SHELL =
   "public-storefront flex min-h-dvh w-full min-w-0 max-w-full flex-col";
 
@@ -25,6 +28,10 @@ const MERCHANT_WORKSPACE_LEAVES = new Set([
 
 function isOperationalPath(pathname: string): boolean {
   return pathname.startsWith("/merchant") || pathname.startsWith("/admin");
+}
+
+function isAdminPath(pathname: string): boolean {
+  return pathname.startsWith("/admin");
 }
 
 function isMerchantWorkspacePath(pathname: string): boolean {
@@ -66,9 +73,11 @@ export function SiteShell({ children }: SiteShellProps) {
   const className =
     isPublicStorefrontPath(pathname) && !isOperationalPath(pathname)
       ? PUBLIC_STOREFRONT_SHELL
-      : isMerchantWorkspacePath(pathname)
-        ? MERCHANT_OPS_SHELL
-        : OPERATIONAL_SHELL;
+      : isAdminPath(pathname)
+        ? ADMIN_OPS_SHELL
+        : isMerchantWorkspacePath(pathname)
+          ? MERCHANT_OPS_SHELL
+          : OPERATIONAL_SHELL;
 
   return <div className={className}>{children}</div>;
 }
