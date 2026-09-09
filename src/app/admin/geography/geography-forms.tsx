@@ -93,7 +93,10 @@ export function GeographyForms({ provinces, cities }: GeographyFormsProps) {
           title="Nueva provincia"
           description="Creá la provincia base que contendrá las ciudades y zonas de operación."
         />
-        <form action={provinceAction} className="mt-5 grid gap-4 sm:grid-cols-2">
+        <form
+          action={provinceAction}
+          className="mt-5 grid gap-4 sm:grid-cols-2"
+        >
           <label className="flex flex-col gap-1.5 text-sm">
             <span className="font-bold text-slate-600">Nombre</span>
             <input
