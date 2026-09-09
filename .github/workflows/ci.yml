@@ -28,15 +28,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Format merchant detail
-        run: npx prettier --write 'src/app/admin/merchants/[merchantId]/page.tsx'
-
-      - name: Upload formatted merchant detail
-        uses: actions/upload-artifact@v4
-        with:
-          name: admin-merchant-detail-prettier
-          path: src/app/admin/merchants
-
       - name: Lint
         run: npm run lint
 
