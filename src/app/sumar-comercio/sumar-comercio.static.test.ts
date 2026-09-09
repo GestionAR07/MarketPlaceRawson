@@ -170,9 +170,9 @@ describe("public merchant application form (static)", () => {
 
   it("does not add public policies, migrations, or schema changes", () => {
     const migrations = listDrizzleMigrations();
-    expect(migrations).toHaveLength(9);
-    expect(migrations.at(-1)).toBe("0008_breezy_iron_man.sql");
-    expect(migrations).not.toContain("0009_");
+    expect(migrations).toHaveLength(10);
+    expect(migrations.at(-1)).toBe("0009_harden_trigger_function_execute.sql");
+    expect(migrations).toContain("0009_harden_trigger_function_execute.sql");
 
     const pkg = read("package.json");
     expect(pkg).not.toContain('"upstash');
