@@ -62,8 +62,8 @@ export default async function AdminGeographyPage() {
         </article>
       </section>
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]">
-        <article className="rounded-2xl border border-sky-100/80 bg-white p-5 shadow-[0_8px_30px_rgba(8,63,102,0.05)] sm:p-6">
+      <section className="grid items-start gap-5 xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]">
+        <article className="self-start rounded-2xl border border-sky-100/80 bg-white p-5 shadow-[0_8px_30px_rgba(8,63,102,0.05)] sm:p-6">
           <div className="mb-5">
             <h2 className="text-lg font-extrabold text-[#083f66]">
               Cobertura configurada
