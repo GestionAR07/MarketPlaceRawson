@@ -195,13 +195,9 @@
         "cities_province_id_provinces_id_fk": {
           "name": "cities_province_id_provinces_id_fk",
           "tableFrom": "cities",
-          "columnsFrom": [
-            "province_id"
-          ],
+          "columnsFrom": ["province_id"],
           "tableTo": "provinces",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -382,13 +378,9 @@
         "zones_city_id_cities_id_fk": {
           "name": "zones_city_id_cities_id_fk",
           "tableFrom": "zones",
-          "columnsFrom": [
-            "city_id"
-          ],
+          "columnsFrom": ["city_id"],
           "tableTo": "cities",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -513,26 +505,18 @@
         "merchant_delivery_zones_merchant_id_merchants_id_fk": {
           "name": "merchant_delivery_zones_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_delivery_zones",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "merchant_delivery_zones_zone_id_zones_id_fk": {
           "name": "merchant_delivery_zones_zone_id_zones_id_fk",
           "tableFrom": "merchant_delivery_zones",
-          "columnsFrom": [
-            "zone_id"
-          ],
+          "columnsFrom": ["zone_id"],
           "tableTo": "zones",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -648,13 +632,9 @@
         "merchant_opening_intervals_merchant_id_merchants_id_fk": {
           "name": "merchant_opening_intervals_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_opening_intervals",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -789,13 +769,9 @@
         "merchant_payment_methods_merchant_id_merchants_id_fk": {
           "name": "merchant_payment_methods_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_payment_methods",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -923,26 +899,18 @@
         "merchant_users_merchant_id_merchants_id_fk": {
           "name": "merchant_users_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_users",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "merchant_users_user_id_user_profiles_id_fk": {
           "name": "merchant_users_user_id_user_profiles_id_fk",
           "tableFrom": "merchant_users",
-          "columnsFrom": [
-            "user_id"
-          ],
+          "columnsFrom": ["user_id"],
           "tableTo": "user_profiles",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -1141,26 +1109,18 @@
         "merchants_city_id_cities_id_fk": {
           "name": "merchants_city_id_cities_id_fk",
           "tableFrom": "merchants",
-          "columnsFrom": [
-            "city_id"
-          ],
+          "columnsFrom": ["city_id"],
           "tableTo": "cities",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "merchants_zone_id_zones_id_fk": {
           "name": "merchants_zone_id_zones_id_fk",
           "tableFrom": "merchants",
-          "columnsFrom": [
-            "zone_id"
-          ],
+          "columnsFrom": ["zone_id"],
           "tableTo": "zones",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -1362,52 +1322,36 @@
         "merchant_applications_city_id_cities_id_fk": {
           "name": "merchant_applications_city_id_cities_id_fk",
           "tableFrom": "merchant_applications",
-          "columnsFrom": [
-            "city_id"
-          ],
+          "columnsFrom": ["city_id"],
           "tableTo": "cities",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "merchant_applications_zone_id_zones_id_fk": {
           "name": "merchant_applications_zone_id_zones_id_fk",
           "tableFrom": "merchant_applications",
-          "columnsFrom": [
-            "zone_id"
-          ],
+          "columnsFrom": ["zone_id"],
           "tableTo": "zones",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "merchant_applications_merchant_id_merchants_id_fk": {
           "name": "merchant_applications_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_applications",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "merchant_applications_reviewed_by_user_id_user_profiles_id_fk": {
           "name": "merchant_applications_reviewed_by_user_id_user_profiles_id_fk",
           "tableFrom": "merchant_applications",
-          "columnsFrom": [
-            "reviewed_by_user_id"
-          ],
+          "columnsFrom": ["reviewed_by_user_id"],
           "tableTo": "user_profiles",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -1622,13 +1566,9 @@
         "merchant_categories_merchant_id_merchants_id_fk": {
           "name": "merchant_categories_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_categories",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1689,26 +1629,18 @@
         "merchant_marketplace_categories_merchant_id_merchants_id_fk": {
           "name": "merchant_marketplace_categories_merchant_id_merchants_id_fk",
           "tableFrom": "merchant_marketplace_categories",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "merchant_marketplace_categories_marketplace_category_id_marketplace_categories_id_fk": {
           "name": "merchant_marketplace_categories_marketplace_category_id_marketplace_categories_id_fk",
           "tableFrom": "merchant_marketplace_categories",
-          "columnsFrom": [
-            "marketplace_category_id"
-          ],
+          "columnsFrom": ["marketplace_category_id"],
           "tableTo": "marketplace_categories",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -1716,10 +1648,7 @@
       "compositePrimaryKeys": {
         "merchant_marketplace_categories_pk": {
           "name": "merchant_marketplace_categories_pk",
-          "columns": [
-            "merchant_id",
-            "marketplace_category_id"
-          ]
+          "columns": ["merchant_id", "marketplace_category_id"]
         }
       },
       "uniqueConstraints": {},
@@ -1806,13 +1735,9 @@
         "product_option_choices_group_id_product_option_groups_id_fk": {
           "name": "product_option_choices_group_id_product_option_groups_id_fk",
           "tableFrom": "product_option_choices",
-          "columnsFrom": [
-            "group_id"
-          ],
+          "columnsFrom": ["group_id"],
           "tableTo": "product_option_groups",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1925,13 +1850,9 @@
         "product_option_groups_product_id_products_id_fk": {
           "name": "product_option_groups_product_id_products_id_fk",
           "tableFrom": "product_option_groups",
-          "columnsFrom": [
-            "product_id"
-          ],
+          "columnsFrom": ["product_id"],
           "tableTo": "products",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -2121,26 +2042,18 @@
         "products_merchant_id_merchants_id_fk": {
           "name": "products_merchant_id_merchants_id_fk",
           "tableFrom": "products",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "products_merchant_category_id_merchant_categories_id_fk": {
           "name": "products_merchant_category_id_merchant_categories_id_fk",
           "tableFrom": "products",
-          "columnsFrom": [
-            "merchant_category_id"
-          ],
+          "columnsFrom": ["merchant_category_id"],
           "tableTo": "merchant_categories",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -2265,13 +2178,9 @@
         "order_events_order_id_orders_id_fk": {
           "name": "order_events_order_id_orders_id_fk",
           "tableFrom": "order_events",
-          "columnsFrom": [
-            "order_id"
-          ],
+          "columnsFrom": ["order_id"],
           "tableTo": "orders",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         }
@@ -2377,39 +2286,27 @@
         "order_item_options_order_item_id_order_items_id_fk": {
           "name": "order_item_options_order_item_id_order_items_id_fk",
           "tableFrom": "order_item_options",
-          "columnsFrom": [
-            "order_item_id"
-          ],
+          "columnsFrom": ["order_item_id"],
           "tableTo": "order_items",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "order_item_options_option_group_id_product_option_groups_id_fk": {
           "name": "order_item_options_option_group_id_product_option_groups_id_fk",
           "tableFrom": "order_item_options",
-          "columnsFrom": [
-            "option_group_id"
-          ],
+          "columnsFrom": ["option_group_id"],
           "tableTo": "product_option_groups",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         },
         "order_item_options_option_choice_id_product_option_choices_id_fk": {
           "name": "order_item_options_option_choice_id_product_option_choices_id_fk",
           "tableFrom": "order_item_options",
-          "columnsFrom": [
-            "option_choice_id"
-          ],
+          "columnsFrom": ["option_choice_id"],
           "tableTo": "product_option_choices",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         }
@@ -2516,26 +2413,18 @@
         "order_items_order_id_orders_id_fk": {
           "name": "order_items_order_id_orders_id_fk",
           "tableFrom": "order_items",
-          "columnsFrom": [
-            "order_id"
-          ],
+          "columnsFrom": ["order_id"],
           "tableTo": "orders",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "order_items_product_id_products_id_fk": {
           "name": "order_items_product_id_products_id_fk",
           "tableFrom": "order_items",
-          "columnsFrom": [
-            "product_id"
-          ],
+          "columnsFrom": ["product_id"],
           "tableTo": "products",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         }
@@ -2859,52 +2748,36 @@
         "orders_merchant_id_merchants_id_fk": {
           "name": "orders_merchant_id_merchants_id_fk",
           "tableFrom": "orders",
-          "columnsFrom": [
-            "merchant_id"
-          ],
+          "columnsFrom": ["merchant_id"],
           "tableTo": "merchants",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "orders_customer_user_id_user_profiles_id_fk": {
           "name": "orders_customer_user_id_user_profiles_id_fk",
           "tableFrom": "orders",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
+          "columnsFrom": ["customer_user_id"],
           "tableTo": "user_profiles",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         },
         "orders_delivery_city_id_cities_id_fk": {
           "name": "orders_delivery_city_id_cities_id_fk",
           "tableFrom": "orders",
-          "columnsFrom": [
-            "delivery_city_id"
-          ],
+          "columnsFrom": ["delivery_city_id"],
           "tableTo": "cities",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         },
         "orders_delivery_zone_id_zones_id_fk": {
           "name": "orders_delivery_zone_id_zones_id_fk",
           "tableFrom": "orders",
-          "columnsFrom": [
-            "delivery_zone_id"
-          ],
+          "columnsFrom": ["delivery_zone_id"],
           "tableTo": "zones",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         }
@@ -3093,39 +2966,27 @@
         "deliveries_order_id_orders_id_fk": {
           "name": "deliveries_order_id_orders_id_fk",
           "tableFrom": "deliveries",
-          "columnsFrom": [
-            "order_id"
-          ],
+          "columnsFrom": ["order_id"],
           "tableTo": "orders",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "restrict"
         },
         "deliveries_address_city_id_cities_id_fk": {
           "name": "deliveries_address_city_id_cities_id_fk",
           "tableFrom": "deliveries",
-          "columnsFrom": [
-            "address_city_id"
-          ],
+          "columnsFrom": ["address_city_id"],
           "tableTo": "cities",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         },
         "deliveries_address_zone_id_zones_id_fk": {
           "name": "deliveries_address_zone_id_zones_id_fk",
           "tableFrom": "deliveries",
-          "columnsFrom": [
-            "address_zone_id"
-          ],
+          "columnsFrom": ["address_zone_id"],
           "tableTo": "zones",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         }
