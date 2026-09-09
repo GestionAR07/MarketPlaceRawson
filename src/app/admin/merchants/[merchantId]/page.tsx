@@ -88,6 +88,10 @@ export default async function AdminMerchantDetailPage({ params }: PageProps) {
   const activationReady = Boolean(
     readiness && merchant.status === "DRAFT" && blockers.length === 0,
   );
+  const hasOwner = members.some((member) => member.role === "OWNER");
+  const cityDiffersFromZone =
+    merchant.cityName.trim().toLocaleLowerCase("es-AR") !==
+    merchant.zoneName.trim().toLocaleLowerCase("es-AR");
 
   return (
     <main className="mx-auto w-full max-w-[94rem] space-y-6">
@@ -140,7 +144,9 @@ export default async function AdminMerchantDetailPage({ params }: PageProps) {
                 <dd className="mt-1 font-bold text-[#083f66]">
                   {merchant.zoneName}
                 </dd>
-                <dd className="text-xs text-slate-400">{merchant.cityName}</dd>
+                {cityDiffersFromZone ? (
+                  <dd className="text-xs text-slate-400">{merchant.cityName}</dd>
+                ) : null}
               </div>
               <div>
                 <dt className="text-xs font-bold tracking-wide text-slate-400 uppercase">
@@ -269,11 +275,12 @@ export default async function AdminMerchantDetailPage({ params }: PageProps) {
 
               <div className="border-t border-slate-100 pt-5">
                 <h3 className="font-extrabold text-[#083f66]">
-                  Invitar propietario
+                  {hasOwner ? "Invitar otro propietario" : "Invitar propietario"}
                 </h3>
                 <p className="mt-1 mb-4 text-sm text-slate-500">
-                  Enviaremos una invitación para vincular una cuenta como
-                  propietaria del comercio.
+                  {hasOwner
+                    ? "Podés sumar otra cuenta con acceso de propietaria al comercio."
+                    : "Enviaremos una invitación para vincular una cuenta como propietaria del comercio."}
                 </p>
                 <InviteOwnerForm merchantId={merchant.id} />
               </div>
