@@ -63,7 +63,9 @@ export function MerchantCreateForm({ cities, zones }: MerchantCreateFormProps) {
         </label>
 
         <label className="flex flex-col gap-1.5 text-sm sm:col-span-2">
-          <span className="font-bold text-[#083f66]">Identificador público</span>
+          <span className="font-bold text-[#083f66]">
+            Identificador público
+          </span>
           <input
             name="slug"
             required
@@ -201,8 +203,8 @@ export function MerchantCreateForm({ cities, zones }: MerchantCreateFormProps) {
           Se guardará como borrador
         </p>
         <p className="mt-1 text-xs leading-5 text-slate-500">
-          Todavía no será visible para clientes. La entrega gestionada por Pedilo
-          permanece deshabilitada en esta etapa.
+          Todavía no será visible para clientes. La entrega gestionada por
+          Pedilo permanece deshabilitada en esta etapa.
         </p>
       </div>
 
