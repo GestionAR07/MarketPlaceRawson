@@ -1,17 +1,24 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
+import { useEffect } from "react";
 
 /**
  * Replaces the root layout. Keep this file self-contained: no Auth, DB,
- * Supabase, or app providers. The Error argument is accepted and ignored.
+ * Supabase, or app providers. Report the exception to Sentry without PII.
  */
 export default function GlobalError({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
   return (
     <html lang="es-AR">
       <body
