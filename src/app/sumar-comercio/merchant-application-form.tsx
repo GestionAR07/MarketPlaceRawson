@@ -51,7 +51,7 @@ export function MerchantApplicationForm({
 
   if (state.success) {
     return (
-      <div className="space-y-5 md:max-w-2xl lg:max-w-3xl">
+      <div className="mt-7 space-y-5 md:max-w-2xl lg:max-w-3xl">
         <h2 className="font-display text-2xl font-extrabold text-[var(--ps-navy)] md:text-3xl">
           Solicitud enviada
         </h2>
@@ -77,10 +77,19 @@ export function MerchantApplicationForm({
     "min-h-12 w-full min-w-0 rounded-2xl border border-sky-100 bg-white px-4 outline-none ring-[var(--ps-cyan)] focus:ring-2";
 
   return (
-    <form
-      action={formAction}
-      className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-5 md:gap-y-4"
-    >
+    <>
+      <h1 className="font-display mt-1 text-3xl font-extrabold text-[var(--ps-navy)]">
+        Sumá tu comercio
+      </h1>
+      <p className="mt-2 text-sm text-muted">
+        Completá los datos y revisaremos la solicitud antes de habilitar el alta
+        en Pedilo.
+      </p>
+      <div className="mt-7">
+        <form
+          action={formAction}
+          className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-5 md:gap-y-4"
+        >
       <div
         className="absolute -left-[9999px] h-px w-px overflow-hidden"
         aria-hidden="true"
@@ -216,6 +225,8 @@ export function MerchantApplicationForm({
           {pending ? "Enviando solicitud…" : "Enviar solicitud"}
         </button>
       </div>
-    </form>
+        </form>
+      </div>
+    </>
   );
 }
