@@ -30,38 +30,42 @@ export default async function SumarComercioPage() {
         <p className="text-xs font-bold tracking-wider text-[var(--ps-cyan)] uppercase">
           Para comercios
         </p>
-        <h1 className="font-display mt-1 text-3xl font-extrabold text-[var(--ps-navy)]">
-          Sumá tu comercio
-        </h1>
-        <p className="mt-2 text-sm text-muted">
-          Completá los datos y revisaremos la solicitud antes de habilitar el
-          alta en Pedilo.
-        </p>
-        <div className="mt-7">
-          {!databaseAvailable ? (
-            <p
-              className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-muted"
-              role="status"
-            >
-              Las solicitudes de comercios no están disponibles en este entorno.
-              Intentá nuevamente más tarde.
+        {databaseAvailable && cities.length > 0 && zones.length > 0 ? (
+          <MerchantApplicationForm
+            cities={cities.map((city) => ({ id: city.id, name: city.name }))}
+            zones={zones.map((zone) => ({
+              id: zone.id,
+              cityId: zone.cityId,
+              name: zone.name,
+            }))}
+          />
+        ) : (
+          <>
+            <h1 className="font-display mt-1 text-3xl font-extrabold text-[var(--ps-navy)]">
+              Sumá tu comercio
+            </h1>
+            <p className="mt-2 text-sm text-muted">
+              Completá los datos y revisaremos la solicitud antes de habilitar
+              el alta en Pedilo.
             </p>
-          ) : cities.length === 0 || zones.length === 0 ? (
-            <p className="text-sm text-muted">
-              Todavía no hay ciudades y zonas configuradas para recibir
-              solicitudes.
-            </p>
-          ) : (
-            <MerchantApplicationForm
-              cities={cities.map((city) => ({ id: city.id, name: city.name }))}
-              zones={zones.map((zone) => ({
-                id: zone.id,
-                cityId: zone.cityId,
-                name: zone.name,
-              }))}
-            />
-          )}
-        </div>
+            <div className="mt-7">
+              {!databaseAvailable ? (
+                <p
+                  className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-muted"
+                  role="status"
+                >
+                  Las solicitudes de comercios no están disponibles en este
+                  entorno. Intentá nuevamente más tarde.
+                </p>
+              ) : (
+                <p className="text-sm text-muted">
+                  Todavía no hay ciudades y zonas configuradas para recibir
+                  solicitudes.
+                </p>
+              )}
+            </div>
+          </>
+        )}
       </section>
     </main>
   );
