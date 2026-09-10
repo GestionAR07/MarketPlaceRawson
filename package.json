@@ -22,6 +22,7 @@
     "validate:real-order-lifecycle": "node --conditions=react-server --import tsx scripts/validate-real-order-lifecycle.ts"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.74.0",
     "@supabase/ssr": "^0.12.6",
     "@supabase/supabase-js": "^2.115.0",
     "drizzle-orm": "^0.45.2",
