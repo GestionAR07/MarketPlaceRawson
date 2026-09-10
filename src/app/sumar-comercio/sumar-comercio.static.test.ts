@@ -115,6 +115,20 @@ describe("public merchant application form (static)", () => {
     );
   });
 
+  it("hides the form instructions after a successful submission", () => {
+    const successBranch = form.slice(
+      form.indexOf("if (state.success)"),
+      form.indexOf("const fieldClassName"),
+    );
+    const formBranch = form.slice(form.indexOf("const fieldClassName"));
+
+    expect(successBranch).toContain("Solicitud enviada");
+    expect(successBranch).not.toContain("Sumá tu comercio");
+    expect(successBranch).not.toContain("Completá los datos");
+    expect(formBranch).toContain("Sumá tu comercio");
+    expect(formBranch).toContain("Completá los datos");
+  });
+
   it("does not expose application UUID on success", () => {
     expect(actions).not.toContain("applicationId");
     expect(actions).not.toContain("result.value.id");
