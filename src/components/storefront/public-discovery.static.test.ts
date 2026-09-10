@@ -497,7 +497,8 @@ describe("qwen public discovery v1 static checks", () => {
     expect(discovery).toContain("Ver todos");
     expect(discovery).toContain("PublicCategoryRail");
     expect(discovery).toContain("effectiveCategoryId");
-    expect(discovery).toContain('href="/login"');
+    expect(discovery).toContain('href="/sumar-comercio"');
+    expect(discovery).not.toContain('href="/login"');
     expect(discovery).toContain("Sumar mi comercio");
     expect(discovery).toContain("grid-cols-1");
     expect(discovery).toContain("sm:grid-cols-2");
