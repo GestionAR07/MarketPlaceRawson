@@ -156,7 +156,7 @@ function EmptyZoneState({ zoneName }: { zoneName: string }) {
         Cuando un comercio habilite esta zona, va a aparecer acá.
       </p>
       <Link
-        href="/login"
+        href="/sumar-comercio"
         className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full px-5 text-sm font-extrabold text-[var(--ps-blue)] transition hover:text-[var(--ps-sky)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ps-sky)]"
       >
         Sumar mi comercio
