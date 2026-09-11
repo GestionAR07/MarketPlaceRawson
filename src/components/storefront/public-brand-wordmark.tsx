@@ -27,7 +27,7 @@ const lockupMarkSize: Record<Size, MarkSize> = {
 };
 
 const textSize: Record<Size, string> = {
-  header: "text-[1.45rem] sm:text-[1.625rem]",
+  header: "text-[1.55rem] sm:text-[1.8rem]",
   hero: "text-4xl sm:text-5xl",
   compact: "text-xl",
 };
@@ -55,13 +55,21 @@ function BrandName({
 }) {
   return (
     <span
+      aria-label={APP_NAME}
       className={cx(
-        "font-display leading-none font-extrabold tracking-tight",
+        "font-display inline-flex translate-y-[1px] items-baseline leading-none font-extrabold tracking-[-0.045em]",
         textSize[size],
-        surface === "dark" ? "text-white" : "text-[var(--ps-deep)]",
       )}
     >
-      {APP_NAME}
+      <span
+        aria-hidden
+        className={surface === "dark" ? "text-white" : "text-[var(--ps-deep)]"}
+      >
+        Bag
+      </span>
+      <span aria-hidden className="text-[var(--ps-yellow)]">
+        ui
+      </span>
     </span>
   );
 }
@@ -84,7 +92,7 @@ export function PublicBrandWordmark({
     return (
       <span
         className={cx(
-          "brand-wordmark inline-flex flex-col items-center gap-2",
+          "brand-wordmark inline-flex flex-col items-center gap-1.5",
           className,
         )}
       >
@@ -107,7 +115,7 @@ export function PublicBrandWordmark({
   return (
     <span
       className={cx(
-        "brand-wordmark brand-wordmark--lockup inline-flex items-center gap-2.5",
+        "brand-wordmark brand-wordmark--lockup inline-flex items-center gap-2",
         className,
       )}
     >
