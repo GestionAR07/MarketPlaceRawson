@@ -97,7 +97,7 @@ describe("qwen public discovery v1 static checks", () => {
     expect(joined).not.toContain("Burger House");
   });
 
-  it("shows Pedilo as the public product name via APP_NAME", () => {
+  it("shows Bagui as the public product name via APP_NAME", () => {
     const info = read("src/lib/app-info.ts");
     const page = read("src/app/page.tsx");
     const header = read("src/components/storefront/public-header.tsx");
@@ -744,7 +744,7 @@ describe("qwen public discovery v1 static checks", () => {
     expect(header).toContain("UserIcon");
     expect(header).toContain("min-h-11");
     expect(header).toContain("inline-flex min-h-11 min-w-0");
-    expect(wordmark).toContain("h-[1.45rem]");
+    expect(wordmark).toContain("text-[1.55rem]");
     expect(css).toMatch(
       /prefers-reduced-motion:\s*reduce[\s\S]*\.public-hero-visual[\s\S]*animation:\s*none/,
     );

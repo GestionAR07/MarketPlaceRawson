@@ -13,7 +13,7 @@ test.describe("C — basic public navigation (no writes)", () => {
 
     await expect(page).toHaveURL(/\/login$/);
     await expect(
-      page.getByRole("heading", { name: "Ingresá a Pedilo" }),
+      page.getByRole("heading", { name: "Ingresá a Bagui" }),
     ).toBeVisible();
 
     await page.getByRole("link", { name: "Crear cuenta" }).click();
